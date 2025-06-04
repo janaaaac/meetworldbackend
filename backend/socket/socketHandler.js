@@ -6,8 +6,11 @@ class SocketHandler {
     this.io = new Server(server, {
       cors: {
         origin: "*",
-        methods: ["GET", "POST"]
-      }
+        methods: ["GET", "POST"],
+        credentials: true,
+        allowedHeaders: ["*"]
+      },
+      transports: ['websocket', 'polling'] // Enable both transports for better compatibility
     });
     
     this.rooms = new Map(); // Store active rooms
