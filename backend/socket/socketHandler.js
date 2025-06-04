@@ -41,6 +41,7 @@ class SocketHandler {
 
       socket.on('signal', (data) => {
         // send signal only to the other socket(s) in the room
+        console.log(`Signal from ${socket.id} to room ${data.roomId}`, data.signal?.type || 'candidate');
         socket.to(data.roomId).emit('signal', {
           signal: data.signal,
           senderId: socket.id
