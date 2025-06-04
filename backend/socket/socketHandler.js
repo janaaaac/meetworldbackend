@@ -41,7 +41,10 @@ class SocketHandler {
 
       socket.on('signal', (data) => {
         // send signal only to the other socket(s) in the room
-        socket.to(data.roomId).emit('signal', data.signal);
+        socket.to(data.roomId).emit('signal', {
+          signal: data.signal,
+          senderId: socket.id
+        });
       });
 
       socket.on('chat-message', (message) => {
