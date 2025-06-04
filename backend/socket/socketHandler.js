@@ -40,8 +40,8 @@ class SocketHandler {
       });
 
       socket.on('signal', (data) => {
-        // send signal to all sockets in the room (including answerer)
-        this.io.in(data.roomId).emit('signal', data.signal);
+        // send signal only to the other socket(s) in the room
+        socket.to(data.roomId).emit('signal', data.signal);
       });
 
       socket.on('chat-message', (message) => {
@@ -75,9 +75,12 @@ class SocketHandler {
       });
 
       // Room management
-      socket.on('join-room', (roomId) => {
+      socket.on('join-room', (roomId, callback) => {
         socket.join(roomId);
         console.log(`User ${socket.id} joined room ${roomId}`);
+        if (typeof callback === 'function') {
+          callback();
+        }
       });
 
       socket.on('leave-room', (roomId) => {
