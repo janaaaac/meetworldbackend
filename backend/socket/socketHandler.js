@@ -40,7 +40,8 @@ class SocketHandler {
       });
 
       socket.on('signal', (data) => {
-        socket.to(data.roomId).emit('signal', data.signal);
+        // send signal to all sockets in the room (including answerer)
+        this.io.in(data.roomId).emit('signal', data.signal);
       });
 
       socket.on('chat-message', (message) => {
