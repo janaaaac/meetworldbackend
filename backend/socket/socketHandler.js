@@ -143,9 +143,9 @@ class SocketHandler {
           type: 'video-chat'
         });
 
-        // Notify both users that they're matched
-        socket.emit('matched', matchedUser.userInfo);
-        matchedSocket.emit('matched', userInfo);
+        // Notify both users that they're matched with roomId
+        socket.emit('matched', { partnerInfo: matchedUser.userInfo, roomId, initiator: true });
+        matchedSocket.emit('matched', { partnerInfo: userInfo, roomId, initiator: false });
 
         console.log(`Video chat match: ${socket.id} <-> ${matchedUser.socketId} in room ${roomId}`);
       }
